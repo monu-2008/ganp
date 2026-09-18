@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0608" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>GANPATI: VIGHNA — A Game by AQX</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ===========================
+       WebGL Canvas
+       =========================== -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- ===========================
+       BOOT SCREEN (first paint, hidden by Game)
+       =========================== -->
+  <section id="boot-screen" class="screen fullscreen dark">
+    <div class="boot-logo">
+      <div class="boot-aqx">A Q X</div>
+      <div class="boot-presents">presents</div>
+      <div class="boot-title">GANPATI<br><span class="boot-subtitle">: VIGHNA</span></div>
+    </div>
+    <div class="boot-foot">A Game by AQX</div>
+  </section>
+
+  <!-- ===========================
+       LOADING SCREEN
+       =========================== -->
+  <section id="loading-screen" class="screen fullscreen hidden">
+    <div class="loading-ganesh-lineart">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Stylized Ganesha silhouette line-art -->
+        <g fill="none" stroke="url(#goldGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Crown -->
+          <path d="M70,38 L70,28 L80,32 L90,22 L100,32 L110,22 L120,32 L130,28 L130,38" />
+          <path d="M70,38 L130,38" />
+          <!-- Head dome -->
+          <path d="M65,40 C55,55 55,75 65,90" />
+          <path d="M135,40 C145,55 145,75 135,90" />
+          <path d="M65,90 C65,110 80,125 100,125 C120,125 135,110 135,90" />
+          <!-- Left ear -->
+          <path d="M55,55 C40,55 35,75 50,90 C60,95 65,85 65,75" />
+          <!-- Right ear -->
+          <path d="M145,55 C160,55 165,75 150,90 C140,95 135,85 135,75" />
+          <!-- Eyes -->
+          <ellipse cx="85" cy="80" rx="4" ry="2.5" />
+          <ellipse cx="115" cy="80" rx="4" ry="2.5" />
+          <!-- Trunk -->
+          <path d="M100,95 C100,105 95,115 100,125 C108,135 115,130 110,120" />
+          <!-- Tusks -->
+          <path d="M90,110 C85,118 80,120 78,118" />
+          <path d="M110,110 C115,118 120,120 122,118" />
+          <!-- Body hint -->
+          <path d="M70,125 C60,145 65,165 100,170 C135,165 140,145 130,125" />
+        </g>
+        <defs>
+          <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffe39a" />
+            <stop offset="1" stop-color="#c89234" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="loading-progress-wrap">
+      <div class="loading-progress-track">
+        <div id="loading-progress-fill" class="loading-progress-fill"></div>
+      </div>
+      <div id="loading-progress-text" class="loading-progress-text">0%</div>
+    </div>
+    <div id="loading-status" class="loading-status">Awakening the festival…</div>
+  </section>
+
+  <!-- ===========================
+       MAIN MENU
+       =========================== -->
+  <section id="menu-screen" class="screen fullscreen hidden">
+    <div class="menu-bg-vignette"></div>
+    <div class="menu-content">
+      <div class="menu-title">
+        <div class="menu-aqx">A GAME BY AQX</div>
+        <h1 class="menu-main-title">GANPATI</h1>
+        <div class="menu-subtitle">: VIGHNA</div>
+      </div>
+      <nav class="menu-buttons">
+        <button id="menu-continue-btn" class="menu-btn menu-btn-primary">
+          <span class="menu-btn-label">Continue</span>
+          <span class="menu-btn-hint">Resume your journey</span>
+        </button>
+        <button id="menu-new-btn" class="menu-btn">
+          <span class="menu-btn-label">New Journey</span>
+          <span class="menu-btn-hint">Begin from the first rain</span>
+        </button>
+        <button id="menu-settings-btn" class="menu-btn">
+          <span class="menu-btn-label">Settings</span>
+          <span class="menu-btn-hint">Quality, audio, controls</span>
+        </button>
+        <button id="menu-credits-btn" class="menu-btn">
+          <span class="menu-btn-label">Credits</span>
+          <span class="menu-btn-hint">Made with reverence</span>
+        </button>
+      </nav>
+      <div class="menu-foot">
+        <span class="menu-version">v1.0 · Vertical Slice</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       SETTINGS PANEL
+       =========================== -->
+  <section id="settings-screen" class="screen fullscreen hidden">
+    <div class="settings-panel">
+      <h2 class="settings-title">Settings</h2>
+      <div class="settings-row">
+        <label class="settings-label">Quality</label>
+        <div class="settings-segmented" id="quality-segmented">
+          <button data-quality="performance">Performance</button>
+          <button data-quality="balanced" class="active">Balanced</button>
+          <button data-quality="ultra">Ultra</button>
+        </div>
+      </div>
+      <div class="settings-row">
+        <label class="settings-label">Master Volume</label>
+        <input type="range" min="0" max="100" value="60" id="vol-master" class="settings-slider" />
+      </div>
+      <div class="settings-row">
+        <label class="settings-label">Music Volume</label>
+        <input type="range" min="0" max="100" value="50" id="vol-music" class="settings-slider" />
+      </div>
+      <div class="settings-row">
+        <label class="settings-label">SFX Volume</label>
+        <input type="range" min="0" max="100" value="70" id="vol-sfx" class="settings-slider" />
+      </div>
+      <div class="settings-row">
+        <label class="settings-label">Show FPS / Debug</label>
+        <label class="switch">
+          <input type="checkbox" id="debug-toggle" />
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+      <div class="settings-buttons">
+        <button id="settings-back-btn" class="menu-btn">← Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       CREDITS PANEL
+       =========================== -->
+  <section id="credits-screen" class="screen fullscreen hidden">
+    <div class="credits-panel">
+      <h2 class="credits-title">GANPATI: VIGHNA</h2>
+      <p class="credits-subtitle">A Game by AQX</p>
+      <div class="credits-body">
+        <p>This vertical slice is built with reverence for Lord Ganesha and the living tradition of Ganesh Chaturthi. The character of Mooshak (the divine mouse vāhana) appears as a tribute to the small, the clever, and the unseen.</p>
+        <p>All music and sound are synthesized at runtime via the Web Audio API — no commercial recordings are used. Geometry is generated procedurally by Blender Python scripts; no third-party 3D assets are shipped.</p>
+        <p>Lord Ganesha is worshipped as Vighnaharta — the remover of obstacles. This game is offered in that spirit.</p>
+        <p class="credits-team">
+          <span class="credits-line">Design · Code · Art — AQX</span>
+          <span class="credits-line">Pipeline — Blender · Three.js · Web Audio</span>
+          <span class="credits-line">ᴏᴍ ɢᴀɴ ɢᴀɴᴘᴀᴛᴀʏᴇ ɴᴀᴍᴀʜ</span>
+        </p>
+      </div>
+      <button id="credits-back-btn" class="menu-btn">← Back</button>
+    </div>
+  </section>
+
+  <!-- ===========================
+       INTRO CINEMATIC LETTERBOX
+       =========================== -->
+  <section id="cinematic-letterbox-top" class="letterbox letterbox-top hidden"></section>
+  <section id="cinematic-letterbox-bottom" class="letterbox letterbox-bottom hidden"></section>
+  <div id="subtitle-bar" class="subtitle-bar hidden"></div>
+
+  <!-- ===========================
+       IN-GAME HUD
+       =========================== -->
+  <div id="hud" class="hud hidden">
+    <div class="hud-top">
+      <div class="hud-objective" id="hud-objective">
+        <span class="hud-objective-label">Objective</span>
+        <span class="hud-objective-text" id="hud-objective-text">Explore the festival</span>
+      </div>
+      <button id="pause-btn" class="hud-icon-btn" aria-label="Pause">
+        <svg viewBox="0 0 24 24" width="20" height="20"><rect x="6" y="5" width="4" height="14" fill="currentColor"/><rect x="14" y="5" width="4" height="14" fill="currentColor"/></svg>
+      </button>
+    </div>
+
+    <div class="hud-contextual" id="hud-contextual">
+      <div class="hud-contextual-inner hidden" id="hud-contextual-inner">
+        <span class="hud-contextual-icon" id="hud-contextual-icon">✦</span>
+        <span class="hud-contextual-text" id="hud-contextual-text">Interact</span>
+      </div>
+    </div>
+
+    <div class="hud-bottom-right">
+      <button id="ability-btn" class="hud-action-btn hud-ability-btn" aria-label="Ability">
+        <span class="hud-action-icon">✦</span>
+        <span class="hud-action-label">Ability</span>
+      </button>
+      <button id="switch-btn" class="hud-action-btn hud-switch-btn" aria-label="Switch Character">
+        <span class="hud-action-icon">⇋</span>
+        <span class="hud-action-label" id="switch-label">Mooshak</span>
+      </button>
+    </div>
+
+    <div class="hud-bottom-left">
+      <div class="hud-character-badge" id="hud-character-badge">
+        <span class="hud-character-name" id="hud-character-name">Ganesh</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===========================
+       PAUSE OVERLAY
+       =========================== -->
+  <section id="pause-overlay" class="screen overlay hidden">
+    <div class="pause-panel">
+      <h2 class="pause-title">Paused</h2>
+      <div class="pause-buttons">
+        <button id="pause-resume-btn" class="menu-btn menu-btn-primary">Resume</button>
+        <button id="pause-restart-btn" class="menu-btn">Restart Chapter</button>
+        <button id="pause-quit-btn" class="menu-btn">Quit to Menu</button>
+        <button id="pause-settings-btn" class="menu-btn">Settings</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       ORIENTATION PROMPT
+       =========================== -->
+  <section id="orientation-prompt" class="screen fullscreen hidden">
+    <div class="orientation-content">
+      <div class="orientation-icon">
+        <svg viewBox="0 0 80 80" width="64" height="64">
+          <rect x="8" y="22" width="44" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="30" cy="56" r="1.6" fill="currentColor"/>
+          <path d="M56,40 L72,40 M68,36 L72,40 L68,44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="orientation-text">Rotate your device</div>
+      <div class="orientation-sub">GANPATI: VIGHNA is best in landscape</div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       DEBUG OVERLAY (off by default)
+       =========================== -->
+  <div id="debug-overlay" class="debug-overlay hidden">
+    <div>FPS: <span id="debug-fps">--</span></div>
+    <div>Calls: <span id="debug-calls">--</span></div>
+    <div>Tris: <span id="debug-tris">--</span></div>
+    <div>State: <span id="debug-state">--</span></div>
+    <div>Quality: <span id="debug-quality">--</span></div>
+  </div>
+
+  <!-- ===========================
+       END CARD
+       =========================== -->
+  <section id="end-card" class="screen fullscreen hidden">
+    <div class="end-card-content">
+      <div class="end-card-aqx">A GAME BY AQX</div>
+      <h1 class="end-card-title">GANPATI<br><span>: VIGHNA</span></h1>
+      <p class="end-card-tagline">Vighnaharta — the remover of obstacles.</p>
+      <div class="end-card-buttons">
+        <button id="end-card-menu-btn" class="menu-btn menu-btn-primary">Return to Menu</button>
+        <button id="end-card-replay-btn" class="menu-btn">Replay</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       ENGINE ENTRY
+       =========================== -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

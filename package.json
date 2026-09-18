@@ -1,0 +1,23 @@
+{
+  "name": "ganpati-vighna",
+  "version": "1.0.0",
+  "description": "GANPATI: VIGHNA — A Game by AQX. A cinematic 3D Indian festival adventure built with Three.js and Web Audio.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host --port 4173",
+    "start": "vite preview --host --port 4173"
+  },
+  "dependencies": {
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

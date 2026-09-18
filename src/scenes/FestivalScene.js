@@ -179,7 +179,6 @@ export class FestivalScene {
     const active = this.controller.active;
     this.hud.setCharacter(active === "ganesh" ? "Ganesh" : "Mooshak");
   }
-
   _onInteract() {
     if (!this.controller.enabled) return;
     const playerPos = this.hero.root.position.clone();
@@ -205,7 +204,7 @@ export class FestivalScene {
 
   async startBossEncounter() {
     if (this.boss.boss) return;
-    this.boss.buildBoss();
+    await this.boss.buildBoss();
     this.quest.setChapter("boss");
     this.hud.setObjective("Activate the three mechanisms");
     this.controller.setEnabled(false);

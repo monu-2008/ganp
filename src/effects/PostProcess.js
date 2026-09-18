@@ -120,11 +120,11 @@ export const COLOR_GRADES = {
   boot:      { tint: [1.0, 1.0, 1.0], tintMix: 0.0, sat: 1.0, exp: 1.0, vig: 0.4, vigFall: 0.55, grain: 0.012, chrom: 0.0, desat: 0.0 },
   menu:      { tint: [1.0, 0.92, 0.78], tintMix: 0.18, sat: 0.95, exp: 1.0, vig: 0.45, vigFall: 0.5, grain: 0.012, chrom: 0.0, desat: 0.0 },
   festival:  { tint: [1.05, 0.96, 0.85], tintMix: 0.10, sat: 1.05, exp: 1.12, vig: 0.35, vigFall: 0.6, grain: 0.012, chrom: 0.0, desat: 0.0 },
-  time_freeze: { tint: [0.82, 0.88, 1.0], tintMix: 0.15, sat: 0.95, exp: 1.05, vig: 0.4, vigFall: 0.5, grain: 0.015, chrom: 0.08, desat: 0.2 },
-  vighna_break: { tint: [1.15, 0.92, 0.78], tintMix: 0.20, sat: 1.1, exp: 1.20, vig: 0.35, vigFall: 0.6, grain: 0.015, chrom: 0.05, desat: 0.0 },
-  boss:      { tint: [1.1, 0.78, 0.7], tintMix: 0.18, sat: 0.98, exp: 1.05, vig: 0.45, vigFall: 0.45, grain: 0.015, chrom: 0.04, desat: 0.1 },
-  riverfront: { tint: [0.85, 0.92, 1.08], tintMix: 0.12, sat: 0.98, exp: 1.08, vig: 0.4, vigFall: 0.5, grain: 0.012, chrom: 0.0, desat: 0.0 },
-  ending:    { tint: [1.1, 1.0, 0.9], tintMix: 0.18, sat: 1.0, exp: 1.10, vig: 0.35, vigFall: 0.55, grain: 0.012, chrom: 0.0, desat: 0.0 },
+  time_freeze: { tint: [0.82, 0.88, 1.0], tintMix: 0.10, sat: 0.95, exp: 1.15, vig: 0.3, vigFall: 0.6, grain: 0.010, chrom: 0.05, desat: 0.15 },
+  vighna_break: { tint: [1.15, 0.92, 0.78], tintMix: 0.15, sat: 1.1, exp: 1.20, vig: 0.30, vigFall: 0.6, grain: 0.012, chrom: 0.04, desat: 0.0 },
+  boss:      { tint: [1.1, 0.78, 0.7], tintMix: 0.12, sat: 0.98, exp: 1.10, vig: 0.35, vigFall: 0.5, grain: 0.012, chrom: 0.03, desat: 0.05 },
+  riverfront: { tint: [0.85, 0.92, 1.08], tintMix: 0.10, sat: 0.98, exp: 1.12, vig: 0.30, vigFall: 0.55, grain: 0.012, chrom: 0.0, desat: 0.0 },
+  ending:    { tint: [1.1, 1.0, 0.9], tintMix: 0.15, sat: 1.0, exp: 1.12, vig: 0.30, vigFall: 0.55, grain: 0.012, chrom: 0.0, desat: 0.0 },
 };
 
 export class PostProcess {
@@ -153,12 +153,12 @@ export class PostProcess {
     this.composer.addPass(renderPass);
 
     // Bloom — makes emissive materials (gold, gems, lamps, flames) glow.
-    // Higher threshold = only bright things bloom (less uniform wash).
+    // Tuned for balance: visible glow without washing out the scene.
     this.bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
-      0.85,   // strength — boosted for cinematic glow
-      0.7,    // radius — wider falloff for softer glow
-      0.85    // threshold — only bright pixels bloom (lamps, gold, gems)
+      0.55,   // strength — moderate
+      0.5,    // radius — medium falloff
+      0.92    // threshold — only very bright pixels bloom (lamps, gems, eyes)
     );
     this.composer.addPass(this.bloomPass);
 

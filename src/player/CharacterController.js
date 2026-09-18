@@ -55,7 +55,9 @@ export class CharacterController {
       this.mooshak.setVisible(true);
       this.mooshak.setPosition(this.position.x, GROUND_Y, this.position.z);
     }
-    this.audio.playSwitch();
+    if (this.audio && this.audio.playSwitch) {
+      try { this.audio.playSwitch(); } catch (e) { /* audio not ready */ }
+    }
   }
 
   toggleActive() {

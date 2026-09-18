@@ -197,6 +197,7 @@ export class Game {
     this.hero = new HeroCharacter({ camera: this.camera });
     await this.hero.load();
     this.mooshak = new MooshakCharacter();
+    await this.mooshak.load();
     this.scene.add(this.hero.root);
   }
 
@@ -207,6 +208,10 @@ export class Game {
     } catch (e) { /* optional */ }
     try {
       await this.assets.loadGLB("modak/modak.glb");
+    } catch (e) { /* optional */ }
+    // Pre-cache Mooshak GLB too (so character switch is instant).
+    try {
+      await this.assets.loadGLB("mooshak/mooshak.glb");
     } catch (e) { /* optional */ }
     // Build the world.
     this.world = new FestivalCity(this.scene, {
